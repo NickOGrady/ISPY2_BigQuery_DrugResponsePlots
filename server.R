@@ -28,41 +28,16 @@ server <- function(input, output) {
     # This automatically searches for RCB, PCR, and Arm.  Change if you want other variables.
     mysql = paste0("SELECT RCB_Index, Admin_PCR, Arm FROM `<<your big query table>>` WHERE ARM in (")
     
-    # These For loops will be the SQL Search for BigQuery
-    armlist = input$myPicker1
-    for (i in 1:length(armlist)) {
-      # Switch here is to change from human readable "Drug_A" on left,
-      # BQ Column name on right
-      y = switch(armlist[i], 
-                 "DRUG_A" = "'<<Drug_A column name from  BQ table>>'",
-                 "DRUG_B" = "'<<Drug_B column name from BQ Table'",
-                 "Drug_C" = "'<<Drug_C coumna name from BQ Table'" 
-      )
-      uarm_choice <<- paste0(y,", '<<Control Arm columna name from BQ Table>>') ")
-     
-    }
+    # Add arm to SQL query
+    uarm_choice <- paste0(input$myPicker1,", '<<Control Arm column name from BQ Table>>') ")
     
+    # Add clinical features to SQL Query
     clinlist = input$myPicker2
-    uclin_choice <<- "AND "
+    uclin_choice <- "AND "
     for (i in 1:length(clinlist)) {
-      # Clinical variables. Change as needed, human readable on left, 
-      # BQ Column name on Right
-      x = switch(clinlist[i], 
-                 "HER2-" = "HER2 = '0'",
-                 "HER2+" = "HER2 = '1'", 
-                 "HR-" = "HR = '0'",
-                 "HR+" = "HR = '1'",
-                 "MP_0" = "MP = '0'",
-                 "MP_1" = "MP = '1'", 
-                 "pCR_0" = "Admin_PCR = '0'",
-                 "pCR_1" = "Admin_PCR = '1'", 
-                 "RCB_I" = "RCB_Class = 'I'", 
-                 "RCB_II" = "RCB_Class = 'II'", 
-                 "RCB_III" = "RCB_Class = 'III'" 
-      )
-      uclin_choice <<- paste0(uclin_choice, x)
+      uclin_choice <- paste0(uclin_choice, clinlist[i])
       if (i != length(clinlist)) {
-        uclin_choice <<- paste0(uclin_choice, " AND ")
+        uclin_choice <- paste0(uclin_choice, " AND ")
       }
     }
    
