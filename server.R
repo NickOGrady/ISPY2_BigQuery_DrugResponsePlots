@@ -80,7 +80,7 @@ server <- function(input, output) {
     par(mfrow=c(2,2))
     
     # pCR drug
-    barplot(pcrdrug_freq, main="PCR distribution of DRUG_A", ylab = "# of cases", names.arg = c("PCR Not Achieved", "PCR Achieved"), ylim = c(0,my_ylim), col = "darkgray")
+    barplot(pcrdrug_freq, main= paste0("PCR distribution of ", input$myPicker1), ylab = "# of cases", names.arg = c("PCR Not Achieved", "PCR Achieved"), ylim = c(0,my_ylim), col = "darkgray")
     
     # pCR Control
     barplot(pcrcontr_freq, main="PCR distribution of CONTROL", ylab = "# of cases", names.arg = c("PCR Not Achieved", "PCR Achieved"), ylim = c(0,my_ylim), col = "deepskyblue3")
